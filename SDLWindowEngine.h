@@ -108,10 +108,10 @@ public:
 		return 0;
 	}
 
-	void setPixel(int x, int y, uint32_t pixel) {
+	void setPixel(SDL_Surface* s, int x, int y, uint32_t pixel) {
 		if (tex == nullptr) { return; }
-		if (x < 0 || x >= surface->w || y < 0 || y >= surface->h) { return; }
-		((uint32_t*)surface->pixels)[y * surface->w + x] = pixel;
+		if (x < 0 || x >= s->w || y < 0 || y >= s->h) { return; }
+		((uint32_t*)s->pixels)[y * s->w + x] = pixel;
 	}
 
 private:
@@ -138,7 +138,7 @@ private:
 		if (tex == nullptr) { return -2; }
 
 		// Create some colour variations (uv map) for a test screen
-		for (int x = 0; x < width; x++) { for (int y = 0; y < height; y++) { setPixel(x, y, SDL_MapRGB(format, static_cast<uint8_t>((static_cast<float>(x) / static_cast<float>(width)) * 255.0f), static_cast<uint8_t>((static_cast<float>(y) / static_cast<float>(height)) * 255.0f), 0)); } }
+		for (int x = 0; x < width; x++) { for (int y = 0; y < height; y++) { setPixel(surface, x, y, SDL_MapRGB(format, static_cast<uint8_t>((static_cast<float>(x) / static_cast<float>(width)) * 255.0f), static_cast<uint8_t>((static_cast<float>(y) / static_cast<float>(height)) * 255.0f), 0)); } }
 		onRender(); // push test image to screen to show that program has started
 		return programInit(); // initialise the program
 	};

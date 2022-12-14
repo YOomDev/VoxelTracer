@@ -152,6 +152,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Randomizer.h" />
     <ClInclude Include="Screenshot.h" />
     <ClInclude Include="SDLWindowEngine.h" />

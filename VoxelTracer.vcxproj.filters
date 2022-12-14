@@ -22,6 +22,9 @@
     <Filter Include="Header Files\Math">
       <UniqueIdentifier>{7c79245d-6f86-45ee-832e-ae89c260dffa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tracing">
+      <UniqueIdentifier>{71239833-f72c-40ea-8bb2-0d9e70c64b41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -46,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="Randomizer.h">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Tracing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

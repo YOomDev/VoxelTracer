@@ -7,16 +7,17 @@
 #include "Randomizer.h"
 
 constexpr uint32_t CHUNKS = 1024;
-constexpr uint32_t CHUNK_WIDTH = 16;
+constexpr int32_t CHUNK_WIDTH = 16;
 constexpr uint32_t CHUNK_SIZE = CHUNK_WIDTH * CHUNK_WIDTH * CHUNK_WIDTH;
 constexpr uint32_t CHUNK_ARRAY_SIZE = CHUNK_SIZE * sizeof(uint32_t);
 
 static uint32_t _BACKUP_ = 0;
 
 struct ChunkLocation {
+	int x, y, z;
+
 	ChunkLocation() { x = 0; y = 0; z = 0; }
 	ChunkLocation(int X, int Y, int Z) : x(X), y(Y), z(Z) {}
-	int x, y, z;
 };
 
 struct Chunk {
@@ -33,9 +34,9 @@ public:
 	inline const bool is(int X, int Y, int Z) const { return loc.x == X && loc.y == Y && loc.z == Z; }
 	inline const bool is_used() const { return voxels == nullptr; }
 	void unload() { if (is_used()) { delete[] voxels; voxels = nullptr; } }
-	bool allocate(int x, int y, int z) {
+	bool allocate(ChunkLocation Loc) {
 		// set chunk location while arguments are still hot in memory
-		loc = { x,y,z };
+		loc = Loc;
 
 		// Attempt allocation of voxel storage
 		voxels = (uint32_t*) malloc(CHUNK_ARRAY_SIZE);
@@ -46,8 +47,6 @@ public:
 
 		return true;
 	}
-
-	
 
 	const uint32_t operator[](uint32_t i) const { 
 		if (is_used() && i < CHUNK_SIZE) { return voxels[i]; }
@@ -69,9 +68,23 @@ private:
 	Chunk chunks[CHUNKS] { Chunk(0, 0, 0) };
 	std::vector<ChunkLocation> toAllocate = {};
 
+	int findFirstEmpty() {
+		for (int i = 0; i < CHUNKS; i++) { if (!chunks[i].is_used()) { return i; } }
+		return -1;
+	}
+
 public:
 	World() {}
 	~World() {}
+
+	void loadChunks() {
+		int empty = findFirstEmpty();
+		while (empty > -1) {
+			if (toAllocate.size() == 0) { break; }
+			if (!chunks[empty].allocate(toAllocate[toAllocate.size()-1])) { break; }
+			empty = findFirstEmpty();
+		}
+	}
 
 	uint32_t& get_voxel(long x, long y, long z) {
 		// get chunk location and voxel coords in chunk
@@ -98,7 +111,7 @@ public:
 
 		// return default voxel
 		printf_s("WARNING: Unable to find correct chunk, %d are currently allocated and in use", count);
-		toAllocate.push_back(ChunkLocation(cx, cy, cz));
+		toAllocate.push_back({cx, cy, cz});
 		return _BACKUP_;
 	}
 };
