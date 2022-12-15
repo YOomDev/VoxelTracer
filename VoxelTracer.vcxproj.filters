@@ -53,5 +53,11 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Tracing</Filter>
     </ClInclude>
+    <ClInclude Include="Tracing.h">
+      <Filter>Header Files\Tracing</Filter>
+    </ClInclude>
+    <ClInclude Include="FastMath.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

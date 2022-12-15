@@ -153,9 +153,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="FastMath.h" />
     <ClInclude Include="Randomizer.h" />
     <ClInclude Include="Screenshot.h" />
     <ClInclude Include="SDLWindowEngine.h" />
+    <ClInclude Include="Tracing.h" />
     <ClInclude Include="Vec3.h" />
     <ClInclude Include="VoxelTracer.h" />
     <ClInclude Include="World.h" />
