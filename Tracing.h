@@ -149,6 +149,7 @@ vec3 trace(const vec3& source, const Ray& ray, World& world, int bounces, int ma
             printf_s("tMax values are too big..\n");
             exit(-200);
         }
+        depth += std::fmin(tMax.x(), std::fmin(tMax.y(), tMax.z()));
 
         // Check if voxel is solid
         if (voxelMaterialId = world.get_voxel(current[0], current[1], current[2])) { // TODO: fix glass scattering twice if the same material repeats immediatly in the next voxel
