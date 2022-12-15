@@ -13,6 +13,29 @@ constexpr uint32_t CHUNK_ARRAY_SIZE = CHUNK_SIZE * sizeof(uint32_t);
 
 static uint32_t _BACKUP_ = 0;
 
+enum MaterialType {
+	AIR,
+	SOLID,
+	REFLECTIVE,
+	REFRACTIVE
+};
+
+struct Material {
+	MaterialType type = AIR;
+	float effectValue = 0; // Set how much the refracted/reflected color effects the output
+	float roughness = 0; // Makes scattering/bouncing worse the higher the value
+	vec3 albedo = {0,0,0}; // Color
+	// uint32_t albedoTextureID, effectFactorTextureID; // TODO: currently unused
+
+	Material() {}
+	Material(MaterialType materialType, vec3 color, float rough, float effect) :
+		type(materialType),
+		albedo(color),
+		roughness(rough < 0 ? 0.0f : (rough >= 1.0f ? 1.0f : rough)),
+		effectValue(effect < 0 ? 0.0f : (effect >= 1.0f ? 1.0f : effect)) {};
+	~Material() {};
+};
+
 struct ChunkLocation {
 	int x, y, z;
 
@@ -74,6 +97,9 @@ private:
 	}
 
 public:
+	std::vector<Material> materials;
+	vec3 sunDirection = unit_vector({ 4, 10, 7 });
+
 	World() {}
 	~World() {}
 

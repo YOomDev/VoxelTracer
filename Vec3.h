@@ -5,6 +5,7 @@
 #include <cstdio>
 
 struct vec3 {
+public:
     float vertices[3]{ 0.0f };
 
     vec3() {}
@@ -25,7 +26,7 @@ struct vec3 {
 
     inline const vec3& operator+() const { return *this; }
     inline vec3 operator-() const { return vec3(-vertices[0], -vertices[1], -vertices[2]); }
-    inline const vec3& normalize() { float l = length(); vec3 t(vertices[0] / l, vertices[1] / l, vertices[2] / l); return t; }
+    inline const vec3& normalize() { float l = length(); vec3 t; if (l == 0) { t = {0, 1, 0}; } else { t = {vertices[0] / l, vertices[1] / l, vertices[2] / l}; } return t; }
     inline float operator[](int i) const { return vertices[i]; }
     inline float& operator[](int i) { return vertices[i]; }
     inline float length() const { return sqrt(vertices[0] * vertices[0] + vertices[1] * vertices[1] + vertices[2] * vertices[2]); }
@@ -113,4 +114,4 @@ inline vec3& vec3::operator/=(const float t) {
     return *this;
 }
 
-inline vec3 unit_vector(vec3 v) { return v / v.length(); }
+inline vec3 unit_vector(vec3 v) { return v.normalize(); }

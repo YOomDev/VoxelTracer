@@ -135,7 +135,7 @@ private:
 		surface = SDL_GetWindowSurface(window);
 		format = surface->format;
 		tex = SDL_CreateTextureFromSurface(renderer, surface);
-		if (tex == nullptr) { return -2; }
+		if (tex == nullptr) { return false; }
 
 		// Create some colour variations (uv map) for a test screen
 		for (int x = 0; x < width; x++) { for (int y = 0; y < height; y++) { setPixel(surface, x, y, SDL_MapRGB(format, static_cast<uint8_t>((static_cast<float>(x) / static_cast<float>(width)) * 255.0f), static_cast<uint8_t>((static_cast<float>(y) / static_cast<float>(height)) * 255.0f), 0)); } }
